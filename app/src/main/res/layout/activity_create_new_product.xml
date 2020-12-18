@@ -18,23 +18,12 @@
         />
 
     <Button
-        android:id="@+id/button_save_update_product"
+        android:id="@+id/button_create_new_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_save_text"
+        android:text="@string/button_create_text"
         app:layout_constraintTop_toBottomOf="@id/edit_text_name_product"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/button_delete_product"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <Button
-        android:id="@+id/button_delete_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_delete_text"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_name_product"
-        app:layout_constraintLeft_toLeftOf="@id/button_save_update_product"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
