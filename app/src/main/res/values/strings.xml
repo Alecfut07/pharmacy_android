@@ -3,4 +3,11 @@
     <string name="button_save_text">SAVE</string>
     <string name="button_delete_text">DELETE</string>
     <string name="button_create_text">CREATE</string>
+    <string name="edit_text_change_name_product">Name</string>
+    <string name="edit_text_change_details_product">Details</string>
+    <string name="edit_text_change_category_id_product">Category_id</string>
+    <string name="edit_text_change_stock_product">Stock</string>
+    <string name="edit_text_change_stock_min_product">Stock_min</string>
+    <string name="edit_text_change_stock_max_product">Stock_max</string>
+    <string name="edit_text_change_price_product">Price</string>
 </resources>

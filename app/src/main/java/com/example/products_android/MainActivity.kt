@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.recycler_view_products)
     }
 
+    private val floatingActionButton by lazy { findViewById<FloatingActionButton>(R.id.floating_action_button_add_new_product) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,17 +36,22 @@ class MainActivity : AppCompatActivity() {
         //1.multiplicar(3)
 
         recyclerView.adapter = adapter
+
+        floatingActionButton.setOnClickListener {
+            val intent = Intent(this, CreateNewProductActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     //fun AppCompatActivity.orale(): String = "asdfsdf"
 
-    fun Int.multiplicar(n: Int): Int {
-        return this * n
-    }
-
-    fun String.agregarApellido(apellido: String): String {
-        return this + apellido
-    }
+//    fun Int.multiplicar(n: Int): Int {
+//        return this * n
+//    }
+//
+//    fun String.agregarApellido(apellido: String): String {
+//        return this + apellido
+//    }
 
     override fun onResume() {
         super.onResume()
