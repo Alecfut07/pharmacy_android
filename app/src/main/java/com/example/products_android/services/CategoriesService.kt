@@ -1,5 +1,9 @@
-package com.example.products_android
+package com.example.products_android.services
 
+import com.example.products_android.api.CategoryUpdateRequest
+import com.example.products_android.api.NewCategoryRequest
+import com.example.products_android.models.Category
+import com.example.products_android.models.Response
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -19,10 +23,3 @@ interface CategoriesService {
     @DELETE("/categories/{id}")
     fun deleteCategory(@Path("id") id: Int): Call<Unit>
 }
-
-//class Response<T>(val data: T? = null)
-
-class Category(
-    val id: Int,
-    val name: String
-)

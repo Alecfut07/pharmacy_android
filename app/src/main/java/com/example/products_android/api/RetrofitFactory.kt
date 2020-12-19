@@ -1,5 +1,6 @@
-package com.example.products_android
+package com.example.products_android.api
 
+import com.example.products_android.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

@@ -1,15 +1,16 @@
-package com.example.products_android
+package com.example.products_android.products
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.products_android.MainActivity.Companion.PRODUCT_ID_KEY
+import com.example.products_android.api.ProductUpdateRequest
+import com.example.products_android.api.RetrofitFactory
 import com.example.products_android.databinding.ActivityProductDetailBinding
+import com.example.products_android.models.Product
+import com.example.products_android.models.Response
+import com.example.products_android.services.ProductsService
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailBinding

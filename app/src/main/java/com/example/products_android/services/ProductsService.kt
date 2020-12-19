@@ -1,5 +1,9 @@
-package com.example.products_android
+package com.example.products_android.services
 
+import com.example.products_android.api.NewProductRequest
+import com.example.products_android.api.ProductUpdateRequest
+import com.example.products_android.models.Product
+import com.example.products_android.models.Response
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -19,10 +23,3 @@ interface ProductsService {
     @DELETE("/products/{id}")
     fun deleteProduct(@Path("id") id: Int): Call<Unit>
 }
-
-class Response<T>(val data: T? = null)
-
-class Product(
-    val id: Int,
-    val name: String
-)

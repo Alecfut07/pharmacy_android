@@ -1,17 +1,19 @@
-package com.example.products_android
+package com.example.products_android.products
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.products_android.R
+import com.example.products_android.models.Product
 
 class ProductsAdapter (
     val callback: (id: Int) -> Unit
-        ) : RecyclerView.Adapter<ProductsViewHolder>() {
+) : RecyclerView.Adapter<ProductsViewHolder>() {
     var listProducts = mutableListOf<Product>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_product,
+            .inflate(
+                R.layout.item_product,
                 parent,
                 false)
         return ProductsViewHolder(view)

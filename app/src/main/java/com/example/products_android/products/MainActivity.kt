@@ -2,12 +2,18 @@ package com.example.products_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.products_android.api.RetrofitFactory
 import com.example.products_android.databinding.ActivityMainBinding
+import com.example.products_android.models.Product
+import com.example.products_android.models.Response
+import com.example.products_android.products.CreateNewProductActivity
+import com.example.products_android.products.ProductDetailActivity
+import com.example.products_android.products.ProductsAdapter
+import com.example.products_android.services.ProductsService
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -57,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding.progressBar.visibility = View.VISIBLE
         productsService.getProducts().enqueue(object: Callback<Response<List<Product>>> {
             override fun onResponse(
                 call: Call<Response<List<Product>>>,
@@ -64,10 +71,12 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val products = response.body()?.data ?: emptyList()
                 adapter.reloadData(products)
+                binding.progressBar.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<Response<List<Product>>>, t: Throwable) {
                 println(t.message)
+                binding.progressBar.visibility = View.GONE
             }
 
         })
