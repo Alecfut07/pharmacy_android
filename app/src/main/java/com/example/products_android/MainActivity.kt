@@ -3,29 +3,26 @@ package com.example.products_android
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.products_android.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     private val adapter = ProductsAdapter { id: Int ->
         val intent = Intent(this, ProductDetailActivity::class.java)
         intent.putExtra("PRODUCT_ID_KEY", id)
         startActivity(intent)
     }
-    private val recyclerView by lazy {
-        findViewById<RecyclerView>(R.id.recycler_view_products)
-    }
-
-    private val floatingActionButton by lazy { findViewById<FloatingActionButton>(R.id.floating_action_button_add_new_product) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         //val name: String = "asdf"
 
@@ -35,9 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         //1.multiplicar(3)
 
-        recyclerView.adapter = adapter
+        binding.recyclerViewProducts.adapter = adapter
 
-        floatingActionButton.setOnClickListener {
+        binding.floatingActionButtonAddNewProduct.setOnClickListener {
             val intent = Intent(this, CreateNewProductActivity::class.java)
             startActivity(intent)
         }

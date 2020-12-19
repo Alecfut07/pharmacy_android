@@ -4,20 +4,22 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.products_android.databinding.ActivityCreateNewProductBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CreateNewProductActivity : AppCompatActivity() {
-    private val nameEditText by lazy { findViewById<EditText>(R.id.edit_text_name_product) }
-    private val createButton by lazy { findViewById<Button>(R.id.button_create_new_product) }
+    private lateinit var binding: ActivityCreateNewProductBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_new_product)
+        binding = ActivityCreateNewProductBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        createButton.setOnClickListener {
+        binding.buttonCreateNewProduct.setOnClickListener {
             val retrofit = Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:3000")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -30,7 +32,7 @@ class CreateNewProductActivity : AppCompatActivity() {
             val stock_min = 0
             val stock_max = 0
             val price = 0.0f
-            val newProductRequest = NewProductRequest(nameEditText.text.toString(), details, category_id, stock, stock_min, stock_max, price)
+            val newProductRequest = NewProductRequest(binding.editTextNameProduct.text.toString(), details, category_id, stock, stock_min, stock_max, price)
             service.createNewProduct(newProductRequest).enqueue(object:
                 Callback<Response<Product>> {
                 override fun onResponse(
@@ -38,7 +40,7 @@ class CreateNewProductActivity : AppCompatActivity() {
                     response: retrofit2.Response<Response<Product>>
                 ) {
                     val product = response.body()?.data
-                    nameEditText.setText(product?.name)
+                    binding.editTextNameProduct.setText(product?.name)
                 }
 
                 override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
