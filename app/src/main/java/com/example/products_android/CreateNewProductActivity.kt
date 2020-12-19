@@ -21,7 +21,7 @@ class CreateNewProductActivity : AppCompatActivity() {
 
         binding.buttonCreateNewProduct.setOnClickListener {
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

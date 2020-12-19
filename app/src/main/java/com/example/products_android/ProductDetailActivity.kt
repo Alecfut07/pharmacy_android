@@ -21,7 +21,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
         binding.buttonSaveUpdateProduct.setOnClickListener {
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -45,7 +45,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
         binding.buttonDeleteProduct.setOnClickListener {
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -67,7 +67,7 @@ class ProductDetailActivity : AppCompatActivity() {
         super.onResume()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
