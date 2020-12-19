@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    var productsService = RetrofitFactory().create(ProductsService::class.java)
 
     companion object {
         const val PRODUCT_ID_KEY = "PRODUCT_ID"
@@ -56,14 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(ProductsService::class.java)
-
-        service.getProducts().enqueue(object: Callback<Response<List<Product>>> {
+        productsService.getProducts().enqueue(object: Callback<Response<List<Product>>> {
             override fun onResponse(
                 call: Call<Response<List<Product>>>,
                 response: retrofit2.Response<Response<List<Product>>>

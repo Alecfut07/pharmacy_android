@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CreateNewProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateNewProductBinding
+    var productsService = RetrofitFactory().create(ProductsService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +21,6 @@ class CreateNewProductActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.buttonCreateNewProduct.setOnClickListener {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            val service = retrofit.create(ProductsService::class.java)
             val details = ""
             val category_id = 1
             val stock = 0
@@ -33,7 +28,7 @@ class CreateNewProductActivity : AppCompatActivity() {
             val stock_max = 0
             val price = 0.0f
             val newProductRequest = NewProductRequest(binding.editTextNameProduct.text.toString(), details, category_id, stock, stock_min, stock_max, price)
-            service.createNewProduct(newProductRequest).enqueue(object:
+            productsService.createNewProduct(newProductRequest).enqueue(object:
                 Callback<Response<Product>> {
                 override fun onResponse(
                     call: Call<Response<Product>>,

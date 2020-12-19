@@ -13,23 +13,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailBinding
+    var productsServcice = RetrofitFactory().create(ProductsService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         binding.buttonSaveUpdateProduct.setOnClickListener {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            val service = retrofit.create(ProductsService::class.java)
             val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
             val productUpdateRequest = ProductUpdateRequest(binding.editTextNameProduct.text.toString())
-            service.updateProduct(id, productUpdateRequest).enqueue(object: Callback<Response<Product>> {
+            productsServcice.updateProduct(id, productUpdateRequest).enqueue(object: Callback<Response<Product>> {
                 override fun onResponse(
                     call: Call<Response<Product>>,
                     response: retrofit2.Response<Response<Product>>
@@ -45,14 +39,8 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         binding.buttonDeleteProduct.setOnClickListener {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            val service = retrofit.create(ProductsService::class.java)
             val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
-            service.deleteProduct(id).enqueue(object: Callback<Unit> {
+            productsServcice.deleteProduct(id).enqueue(object: Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: retrofit2.Response<Unit>) {
                     println(response)
                 }
@@ -66,15 +54,8 @@ class ProductDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(ProductsService::class.java)
         val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
-        service.getProduct(id).enqueue(object: Callback<Response<Product>> {
+        productsServcice.getProduct(id).enqueue(object: Callback<Response<Product>> {
             override fun onResponse(
                 call: Call<Response<Product>>,
                 response: retrofit2.Response<Response<Product>>
