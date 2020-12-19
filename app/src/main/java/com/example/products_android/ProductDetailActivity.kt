@@ -21,34 +21,11 @@ class ProductDetailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         binding.buttonSaveUpdateProduct.setOnClickListener {
-            val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
-            val productUpdateRequest = ProductUpdateRequest(binding.editTextNameProduct.text.toString())
-            productsServcice.updateProduct(id, productUpdateRequest).enqueue(object: Callback<Response<Product>> {
-                override fun onResponse(
-                    call: Call<Response<Product>>,
-                    response: retrofit2.Response<Response<Product>>
-                ) {
-                    val product = response.body()?.data
-                    binding.editTextNameProduct.setText(product?.name)
-                }
-
-                override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
-                    println(t.message)
-                }
-            })
+            updateProduct()
         }
 
         binding.buttonDeleteProduct.setOnClickListener {
-            val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
-            productsServcice.deleteProduct(id).enqueue(object: Callback<Unit> {
-                override fun onResponse(call: Call<Unit>, response: retrofit2.Response<Unit>) {
-                    println(response)
-                }
-
-                override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    println(t.message)
-                }
-            })
+            deleteProduct()
         }
     }
 
@@ -68,6 +45,37 @@ class ProductDetailActivity : AppCompatActivity() {
                 println(t.message)
             }
 
+        })
+    }
+
+    fun updateProduct() {
+        val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
+        val productUpdateRequest = ProductUpdateRequest(binding.editTextNameProduct.text.toString())
+        productsServcice.updateProduct(id, productUpdateRequest).enqueue(object: Callback<Response<Product>> {
+            override fun onResponse(
+                call: Call<Response<Product>>,
+                response: retrofit2.Response<Response<Product>>
+            ) {
+                val product = response.body()?.data
+                binding.editTextNameProduct.setText(product?.name)
+            }
+
+            override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
+                println(t.message)
+            }
+        })
+    }
+
+    fun deleteProduct() {
+        val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
+        productsServcice.deleteProduct(id).enqueue(object: Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: retrofit2.Response<Unit>) {
+                println(response)
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                println(t.message)
+            }
         })
     }
 }
