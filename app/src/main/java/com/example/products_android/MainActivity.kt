@@ -12,9 +12,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    companion object {
+        const val PRODUCT_ID_KEY = "PRODUCT_ID"
+    }
+
     private val adapter = ProductsAdapter { id: Int ->
         val intent = Intent(this, ProductDetailActivity::class.java)
-        intent.putExtra("PRODUCT_ID_KEY", id)
+        intent.putExtra(PRODUCT_ID_KEY, id)
         startActivity(intent)
     }
 

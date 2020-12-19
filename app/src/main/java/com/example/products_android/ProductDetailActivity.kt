@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.products_android.MainActivity.Companion.PRODUCT_ID_KEY
 import com.example.products_android.databinding.ActivityProductDetailBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +27,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 .build()
 
             val service = retrofit.create(ProductsService::class.java)
-            val id = intent.getIntExtra("PRODUCT_ID_KEY", 0)
+            val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
             val productUpdateRequest = ProductUpdateRequest(binding.editTextNameProduct.text.toString())
             service.updateProduct(id, productUpdateRequest).enqueue(object: Callback<Response<Product>> {
                 override fun onResponse(
@@ -50,7 +51,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 .build()
 
             val service = retrofit.create(ProductsService::class.java)
-            val id = intent.getIntExtra("PRODUCT_ID_KEY", 0)
+            val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
             service.deleteProduct(id).enqueue(object: Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: retrofit2.Response<Unit>) {
                     println(response)
@@ -72,7 +73,7 @@ class ProductDetailActivity : AppCompatActivity() {
             .build()
 
         val service = retrofit.create(ProductsService::class.java)
-        val id = intent.getIntExtra("PRODUCT_ID_KEY", 0)
+        val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
         service.getProduct(id).enqueue(object: Callback<Response<Product>> {
             override fun onResponse(
                 call: Call<Response<Product>>,
