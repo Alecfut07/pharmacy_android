@@ -1,11 +1,15 @@
 package com.example.products_android.products
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.products_android.MainActivity
+import com.example.products_android.R
 import com.example.products_android.api.NewProductRequest
 import com.example.products_android.api.RetrofitFactory
 import com.example.products_android.databinding.ActivityCreateNewProductBinding
@@ -30,7 +34,10 @@ class CreateNewProductActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.buttonCreateNewProduct.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
             createProduct()
+            startActivity(intent)
         }
     }
 
@@ -46,8 +53,15 @@ class CreateNewProductActivity : AppCompatActivity() {
         val stock = 0
         val stock_min = 0
         val stock_max = 0
-        val price = 0.0f
-        val newProductRequest = NewProductRequest(binding.editTextNameProduct.text.toString(), binding.editTextDetailsProduct.text.toString(), category_id, stock, stock_min, stock_max, binding.editTextPriceProduct.text.toString().toFloat())
+        val newProductRequest = NewProductRequest(
+            name = binding.editTextNameProduct.text.toString(),
+            details = binding.editTextDetailsProduct.text.toString(),
+            category_id = category_id,
+            stock = stock,
+            stock_min = stock_min,
+            stock_max = stock_max,
+            price = binding.editTextPriceProduct.text.toString().toFloat()
+        )
         productsService.createNewProduct(newProductRequest).enqueue(object:
             Callback<Response<Product>> {
             override fun onResponse(
@@ -56,10 +70,12 @@ class CreateNewProductActivity : AppCompatActivity() {
             ) {
                 val product = response.body()?.data
                 binding.editTextNameProduct.setText(product?.name)
+                binding.progressBarActivityCreateNewProduct.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
                 println(t.message)
+                binding.progressBarActivityCreateNewProduct.visibility = View.GONE
             }
         })
     }
@@ -76,18 +92,14 @@ class CreateNewProductActivity : AppCompatActivity() {
 //                    namesCategories.add(category.name)
 //                }
                 binding.progressBarActivityCreateNewProduct.visibility = View.GONE
-                val adapter = ArrayAdapter(this@CreateNewProductActivity, android.R.layout.simple_spinner_item, categories)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.spinnerCategoryIdProduct.adapter = adapter
-                binding.spinnerCategoryIdProduct.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, id: Long) {
+                val adapter = ArrayAdapter(this@CreateNewProductActivity, R.layout.list_item, categories)
+                (binding.spinnerCategoryIdProduct as? AutoCompleteTextView)?.setAdapter(adapter)
+
+                binding.spinnerCategoryIdProduct.onItemClickListener = object : AdapterView.OnItemClickListener {
+                    override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, id: Long) {
                         val selectedCategory = categories[position]
                         mySelectedCategory = selectedCategory
                     }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                    }
-
                 }
             }
 

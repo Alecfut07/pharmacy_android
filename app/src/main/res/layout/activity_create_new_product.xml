@@ -16,11 +16,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_product_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/hint_name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -31,11 +31,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/details_product_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/hint_details"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintTop_toBottomOf="@id/name_product_layout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -46,66 +46,30 @@
             android:minLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/spinner_category_id_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/edit_text_change_category_id_product"
-        app:layout_constraintTop_toBottomOf="@id/details_product_layout" />
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/stock_product_layout"
+        android:id="@+id/spinner_category_id_product_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/hint_stock"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/spinner_category_id_product">
+        android:hint="Categories"
+        app:layout_constraintTop_toBottomOf="@id/details_product_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_stock_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/stock_min_product_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/stock_product_layout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_stock_min_product"
+        <AutoCompleteTextView
+            android:id="@+id/spinner_category_id_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_stock_min" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:inputType="none" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/stock_max_product_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/stock_min_product_layout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_stock_max_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_stock_max" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/price_product_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/stock_max_product_layout">
+        app:layout_constraintTop_toBottomOf="@id/spinner_category_id_product_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_price_product"
@@ -116,15 +80,15 @@
 
     <Button
         android:id="@+id/button_create_new_product"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_500"
         android:text="@string/button_create_text"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progress_bar_activity_create_new_product"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/purple_500"
-        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+        app:layout_constraintTop_toBottomOf="@id/progress_bar_activity_create_new_product" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
