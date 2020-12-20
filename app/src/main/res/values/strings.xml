@@ -10,4 +10,10 @@
     <string name="edit_text_change_stock_min_product">Stock_min</string>
     <string name="edit_text_change_stock_max_product">Stock_max</string>
     <string name="edit_text_change_price_product">Price</string>
+    <string name="hint_details">Details</string>
+    <string name="hint_stock">Stock</string>
+    <string name="hint_stock_min">Stock min</string>
+    <string name="hint_stock_max">Stock max</string>
+    <string name="hint_price">Price</string>
+    <string name="hint_name">Name</string>
 </resources>

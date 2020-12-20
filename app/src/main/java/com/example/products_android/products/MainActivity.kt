@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBarActivityMain.visibility = View.VISIBLE
         productsService.getProducts().enqueue(object: Callback<Response<List<Product>>> {
             override fun onResponse(
                 call: Call<Response<List<Product>>>,
@@ -71,12 +71,12 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val products = response.body()?.data ?: emptyList()
                 adapter.reloadData(products)
-                binding.progressBar.visibility = View.GONE
+                binding.progressBarActivityMain.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<Response<List<Product>>>, t: Throwable) {
                 println(t.message)
-                binding.progressBar.visibility = View.GONE
+                binding.progressBarActivityMain.visibility = View.GONE
             }
 
         })

@@ -1,6 +1,7 @@
 package com.example.products_android.products
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.products_android.MainActivity.Companion.PRODUCT_ID_KEY
 import com.example.products_android.api.ProductUpdateRequest
@@ -32,6 +33,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding.progressBarActivityProductDetail.visibility = View.VISIBLE
         val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
         productsServcice.getProduct(id).enqueue(object: Callback<Response<Product>> {
             override fun onResponse(
@@ -40,10 +42,12 @@ class ProductDetailActivity : AppCompatActivity() {
             ) {
                 val product = response.body()?.data
                 binding.editTextNameProduct.setText(product?.name)
+                binding.progressBarActivityProductDetail.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
                 println(t.message)
+                binding.progressBarActivityProductDetail.visibility = View.GONE
             }
 
         })
