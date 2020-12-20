@@ -34,10 +34,9 @@ class CreateNewProductActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.buttonCreateNewProduct.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
+//            val intent = Intent(this, MainActivity::class.java)
             createProduct()
-            startActivity(intent)
+//            startActivity(intent)
         }
     }
 
@@ -62,6 +61,7 @@ class CreateNewProductActivity : AppCompatActivity() {
             stock_max = stock_max,
             price = binding.editTextPriceProduct.text.toString().toFloat()
         )
+        binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
         productsService.createNewProduct(newProductRequest).enqueue(object:
             Callback<Response<Product>> {
             override fun onResponse(
@@ -71,6 +71,7 @@ class CreateNewProductActivity : AppCompatActivity() {
                 val product = response.body()?.data
                 binding.editTextNameProduct.setText(product?.name)
                 binding.progressBarActivityCreateNewProduct.visibility = View.GONE
+                this@CreateNewProductActivity.finish()
             }
 
             override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
