@@ -17,4 +17,14 @@
     <string name="hint_price">Price</string>
     <string name="hint_name">Name</string>
     <string name="hint_categories">Categories</string>
+    <string name="name_required">Name is required</string>
+    <string name="details_required">Details is required</string>
+    <string name="category_required">Category is required</string>
+    <string name="is_not_a_number">Is not a number</string>
+    <string name="error_alert_dialog_tittle">ERROR</string>
+    <string name="verify_info_alert_dialog_message">ERROR</string>
+    <string name="save_alert_dialog_tittle">SAVE</string>
+    <string name="ask_confirmation_save_alert_dialog_message">Do you want to save?</string>
+    <string name="create_alert_dialog_tittle">CREATE</string>
+    <string name="ask_confirmation_create_alert_dialog_message">Do you want to create this new product?</string>
 </resources>

@@ -43,7 +43,6 @@ class CreateNewProductActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
         getCategories()
     }
 
@@ -69,9 +68,9 @@ class CreateNewProductActivity : AppCompatActivity() {
                     this@CreateNewProductActivity.finish()
                 } else {
                     MaterialAlertDialogBuilder(this@CreateNewProductActivity)
-                        .setTitle("Hola")
-                        .setMessage("que onda")
-                        .setPositiveButton("OK", null)
+                        .setTitle(R.string.error_alert_dialog_tittle)
+                        .setMessage(R.string.verify_info_alert_dialog_message)
+                        .setPositiveButton(android.R.string.ok, null)
                         .create()
                         .show()
                 }
@@ -86,6 +85,7 @@ class CreateNewProductActivity : AppCompatActivity() {
     }
 
     fun getCategories() {
+        binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
         categoriesService.getCategories().enqueue(object: Callback<Response<List<Category>>> {
             override fun onResponse(
                 call: Call<Response<List<Category>>>,
@@ -121,32 +121,32 @@ class CreateNewProductActivity : AppCompatActivity() {
         binding.nameProductLayout.error = if (isNameValid) {
             null
         } else {
-            "Name is required"
+            this.getString(R.string.name_required)
         }
 
         val isDetailsValid = binding.editTextDetailsProduct.text.toString().isNotEmpty()
         binding.detailsProductLayout.error = if (isDetailsValid) {
             null
         } else {
-            "Details is required"
+            this.getString(R.string.details_required)
         }
 
         val isCategoryValid = mySelectedCategory != null
         binding.spinnerCategoryIdProductLayout.error = if (isCategoryValid) {
             null
         } else {
-            "Category is required"
+            this.getString(R.string.category_required)
         }
 
         val isPriceValid = validatePriceNumber()
         binding.priceProductLayout.error = if (isPriceValid) {
             null
         } else {
-            "String is not a number"
+            this.getString(R.string.is_not_a_number)
         }
 
         if (isNameValid && isDetailsValid && isCategoryValid && isPriceValid) {
-            createProduct()
+            askConfirmationCreate()
         }
     }
 
@@ -158,5 +158,19 @@ class CreateNewProductActivity : AppCompatActivity() {
             isNumber = false
         }
         return isNumber
+    }
+
+    fun askConfirmationCreate() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.create_alert_dialog_tittle)
+            .setMessage(R.string.ask_confirmation_create_alert_dialog_message)
+            .setPositiveButton(android.R.string.ok) { dialog, id ->
+                createProduct()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, id ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }
