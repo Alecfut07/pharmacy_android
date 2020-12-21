@@ -1,14 +1,12 @@
 package com.example.products_android.products
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.products_android.MainActivity
 import com.example.products_android.R
 import com.example.products_android.api.NewProductRequest
 import com.example.products_android.api.RetrofitFactory
@@ -18,8 +16,10 @@ import com.example.products_android.models.Product
 import com.example.products_android.models.Response
 import com.example.products_android.services.CategoriesService
 import com.example.products_android.services.ProductsService
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Callback
+import java.lang.NumberFormatException
 
 class CreateNewProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateNewProductBinding
@@ -35,7 +35,8 @@ class CreateNewProductActivity : AppCompatActivity() {
 
         binding.buttonCreateNewProduct.setOnClickListener {
 //            val intent = Intent(this, MainActivity::class.java)
-            createProduct()
+            //createProduct()
+            validateProduct()
 //            startActivity(intent)
         }
     }
@@ -47,28 +48,34 @@ class CreateNewProductActivity : AppCompatActivity() {
     }
 
     fun createProduct() {
-        val details = ""
-        val category_id = mySelectedCategory?.id ?: 0
-        val stock = 0
-        val stock_min = 0
-        val stock_max = 0
+        val categoryId = mySelectedCategory?.id ?: 0
         val newProductRequest = NewProductRequest(
             name = binding.editTextNameProduct.text.toString(),
             details = binding.editTextDetailsProduct.text.toString(),
-            category_id = category_id,
+            categoryId = categoryId,
             price = binding.editTextPriceProduct.text.toString().toFloat()
         )
         binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
+//        Thread.sleep(2000)
         productsService.createNewProduct(newProductRequest).enqueue(object:
             Callback<Response<Product>> {
             override fun onResponse(
                 call: Call<Response<Product>>,
                 response: retrofit2.Response<Response<Product>>
             ) {
-                val product = response.body()?.data
-                binding.editTextNameProduct.setText(product?.name)
+                if (response.isSuccessful) {
+                    val product = response.body()?.data
+                    binding.editTextNameProduct.setText(product?.name)
+                    this@CreateNewProductActivity.finish()
+                } else {
+                    MaterialAlertDialogBuilder(this@CreateNewProductActivity)
+                        .setTitle("Hola")
+                        .setMessage("que onda")
+                        .setPositiveButton("OK", null)
+                        .create()
+                        .show()
+                }
                 binding.progressBarActivityCreateNewProduct.visibility = View.GONE
-                this@CreateNewProductActivity.finish()
             }
 
             override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
@@ -107,5 +114,49 @@ class CreateNewProductActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun validateProduct() {
+        val isNameValid = binding.editTextNameProduct.text.toString().isNotEmpty()
+        binding.nameProductLayout.error = if (isNameValid) {
+            null
+        } else {
+            "Name is required"
+        }
+
+        val isDetailsValid = binding.editTextDetailsProduct.text.toString().isNotEmpty()
+        binding.detailsProductLayout.error = if (isDetailsValid) {
+            null
+        } else {
+            "Details is required"
+        }
+
+        val isCategoryValid = mySelectedCategory != null
+        binding.spinnerCategoryIdProductLayout.error = if (isCategoryValid) {
+            null
+        } else {
+            "Category is required"
+        }
+
+        val isPriceValid = validatePriceNumber()
+        binding.priceProductLayout.error = if (isPriceValid) {
+            null
+        } else {
+            "String is not a number"
+        }
+
+        if (isNameValid && isDetailsValid && isCategoryValid && isPriceValid) {
+            createProduct()
+        }
+    }
+
+    fun validatePriceNumber(): Boolean {
+        var isNumber = true
+        try {
+            binding.editTextPriceProduct.text.toString().toFloat()
+        } catch (e: NumberFormatException) {
+            isNumber = false
+        }
+        return isNumber
     }
 }
