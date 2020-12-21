@@ -56,9 +56,6 @@ class CreateNewProductActivity : AppCompatActivity() {
             name = binding.editTextNameProduct.text.toString(),
             details = binding.editTextDetailsProduct.text.toString(),
             category_id = category_id,
-            stock = stock,
-            stock_min = stock_min,
-            stock_max = stock_max,
             price = binding.editTextPriceProduct.text.toString().toFloat()
         )
         binding.progressBarActivityCreateNewProduct.visibility = View.VISIBLE
