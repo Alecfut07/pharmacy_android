@@ -16,4 +16,5 @@
     <string name="hint_stock_max">Stock max</string>
     <string name="hint_price">Price</string>
     <string name="hint_name">Name</string>
+    <string name="hint_categories">Categories</string>
 </resources>
