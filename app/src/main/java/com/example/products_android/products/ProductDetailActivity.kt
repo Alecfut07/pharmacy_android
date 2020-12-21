@@ -42,39 +42,20 @@ class ProductDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getCategories()
-        binding.progressBarActivityProductDetail.visibility = View.VISIBLE
-        val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
-        productsServcice.getProduct(id).enqueue(object: Callback<Response<Product>> {
-            override fun onResponse(
-                call: Call<Response<Product>>,
-                response: retrofit2.Response<Response<Product>>
-            ) {
-                val product = response.body()?.data
-                binding.editTextNameProduct.setText(product?.name)
-                binding.editTextDetailsProduct.setText(product?.details)
-                binding.editTextPriceProduct.setText(product?.price.toString())
-                binding.progressBarActivityProductDetail.visibility = View.GONE
-            }
-
-            override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
-                println(t.message)
-                binding.progressBarActivityProductDetail.visibility = View.GONE
-            }
-
-        })
     }
 
     fun updateProduct() {
-        val category_id = mySelectedCategory?.id ?: 0
+        val categoryId = mySelectedCategory?.id ?: 0
         val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
         val productUpdateRequest = ProductUpdateRequest(
             name = binding.editTextNameProduct.text.toString(),
             details = binding.editTextDetailsProduct.text.toString(),
-            category_id = category_id,
+            category_id = categoryId,
             price = binding.editTextPriceProduct.text.toString().toFloat()
         )
         binding.progressBarActivityProductDetail.visibility = View.VISIBLE
-        productsServcice.updateProduct(id, productUpdateRequest).enqueue(object: Callback<Response<Product>> {
+        productsServcice.updateProduct(id, productUpdateRequest).enqueue(object :
+            Callback<Response<Product>> {
             override fun onResponse(
                 call: Call<Response<Product>>,
                 response: retrofit2.Response<Response<Product>>
@@ -97,7 +78,7 @@ class ProductDetailActivity : AppCompatActivity() {
     fun deleteProduct() {
         val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
         binding.progressBarActivityProductDetail.visibility = View.VISIBLE
-        productsServcice.deleteProduct(id).enqueue(object: Callback<Unit> {
+        productsServcice.deleteProduct(id).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: retrofit2.Response<Unit>) {
                 println(response)
                 binding.progressBarActivityProductDetail.visibility = View.GONE
@@ -112,7 +93,7 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     fun getCategories() {
-        categoriesService.getCategories().enqueue(object: Callback<Response<List<Category>>> {
+        categoriesService.getCategories().enqueue(object : Callback<Response<List<Category>>> {
             override fun onResponse(
                 call: Call<Response<List<Category>>>,
                 response: retrofit2.Response<Response<List<Category>>>
@@ -123,19 +104,56 @@ class ProductDetailActivity : AppCompatActivity() {
 //                    namesCategories.add(category.name)
 //                }
                 binding.progressBarActivityProductDetail.visibility = View.GONE
-                val adapter = ArrayAdapter(this@ProductDetailActivity, R.layout.list_item, categories)
+                val adapter = ArrayAdapter(
+                    this@ProductDetailActivity,
+                    R.layout.list_item,
+                    categories
+                )
                 (binding.spinnerCategoryIdProduct as? AutoCompleteTextView)?.setAdapter(adapter)
+                getProductById()
 
-                binding.spinnerCategoryIdProduct.onItemClickListener = object : AdapterView.OnItemClickListener {
-                    override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, id: Long) {
-                        val selectedCategory = categories[position]
-                        mySelectedCategory = selectedCategory
+                binding.spinnerCategoryIdProduct.onItemClickListener =
+                    object : AdapterView.OnItemClickListener {
+                        override fun onItemClick(
+                            p0: AdapterView<*>?,
+                            p1: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            val selectedCategory = categories[position]
+                            mySelectedCategory = selectedCategory
+                        }
                     }
-                }
             }
 
             override fun onFailure(call: Call<Response<List<Category>>>, t: Throwable) {
                 println("FAILURE")
+                binding.progressBarActivityProductDetail.visibility = View.GONE
+            }
+
+        })
+    }
+
+    fun getProductById() {
+        binding.progressBarActivityProductDetail.visibility = View.VISIBLE
+        val id = intent.getIntExtra(PRODUCT_ID_KEY, 0)
+        productsServcice.getProduct(id).enqueue(object : Callback<Response<Product>> {
+            override fun onResponse(
+                call: Call<Response<Product>>,
+                response: retrofit2.Response<Response<Product>>
+            ) {
+                val product = response.body()?.data
+                binding.editTextNameProduct.setText(product?.name)
+                binding.editTextDetailsProduct.setText(product?.details)
+                binding.editTextPriceProduct.setText(product?.price.toString())
+                binding.spinnerCategoryIdProduct.setText(product?.category?.name, false)
+                binding.progressBarActivityProductDetail.visibility = View.GONE
+
+                mySelectedCategory = product?.category
+            }
+
+            override fun onFailure(call: Call<Response<Product>>, t: Throwable) {
+                println(t.message)
                 binding.progressBarActivityProductDetail.visibility = View.GONE
             }
 
